@@ -2,7 +2,7 @@
 
 namespace RandomDomainGenerator.Domain.Commands
 {
-    internal abstract class CommandBase : ICommand
+    public abstract class CommandBase : ICommand
     {
         private readonly IClientLogger _logger;
 
@@ -15,7 +15,6 @@ namespace RandomDomainGenerator.Domain.Commands
         {
             try
             {
-                foreach (Parameter parameter in parameters) Console.WriteLine(parameter.ToString());
                 Execute(parameters);
             }
             catch (Exception e)

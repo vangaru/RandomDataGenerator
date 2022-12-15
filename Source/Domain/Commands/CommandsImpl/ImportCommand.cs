@@ -2,7 +2,7 @@
 
 namespace RandomDomainGenerator.Domain.Commands.CommandsImpl
 {
-    internal class ImportCommand : CommandBase
+    public class ImportCommand : CommandBase
     {
         public ImportCommand(IClientLogger logger) : base(logger)
         {

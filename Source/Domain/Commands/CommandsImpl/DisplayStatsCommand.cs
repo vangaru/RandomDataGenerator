@@ -2,7 +2,7 @@
 
 namespace RandomDomainGenerator.Domain.Commands.CommandsImpl
 {
-    internal class DisplayStatsCommand : CommandBase
+    public class DisplayStatsCommand : CommandBase
     {
         public DisplayStatsCommand(IClientLogger logger) : base(logger)
         {

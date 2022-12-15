@@ -2,7 +2,7 @@
 
 namespace RandomDomainGenerator.Domain.Commands.CommandsImpl
 {
-    internal class UniteCommand : CommandBase
+    public class UniteCommand : CommandBase
     {
         public UniteCommand(IClientLogger logger) : base(logger)
         {

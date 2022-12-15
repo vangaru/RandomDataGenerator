@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomDataGenerator.Domain", "Domain\RandomDataGenerator.Domain.csproj", "{6F92129F-656D-4A0B-973B-D061A608A138}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomDataGenerator.Configuration", "Configuration\RandomDataGenerator.Configuration.csproj", "{3DAD081A-70AA-46FC-89DE-C77300493A19}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomDataGenerator.Data", "Data\RandomDataGenerator.Data.csproj", "{6E67F34C-EDB2-439B-968E-0F73A4743239}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomDataGenerator.ConsoleClient", "ConsoleClient\RandomDataGenerator.ConsoleClient.csproj", "{AC6E801F-F501-4024-809E-893B2405E5D9}"
@@ -21,10 +19,6 @@ Global
 		{6F92129F-656D-4A0B-973B-D061A608A138}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F92129F-656D-4A0B-973B-D061A608A138}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F92129F-656D-4A0B-973B-D061A608A138}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DAD081A-70AA-46FC-89DE-C77300493A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DAD081A-70AA-46FC-89DE-C77300493A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DAD081A-70AA-46FC-89DE-C77300493A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DAD081A-70AA-46FC-89DE-C77300493A19}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E67F34C-EDB2-439B-968E-0F73A4743239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E67F34C-EDB2-439B-968E-0F73A4743239}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E67F34C-EDB2-439B-968E-0F73A4743239}.Release|Any CPU.ActiveCfg = Release|Any CPU
