@@ -1,4 +1,5 @@
-﻿using RandomDomainGenerator.Domain.Loggers;
+﻿using RandomDataGenerator.Domain.Commands;
+using RandomDomainGenerator.Domain.Loggers;
 
 namespace RandomDomainGenerator.Domain.Commands.CommandsImpl
 {
@@ -8,7 +9,7 @@ namespace RandomDomainGenerator.Domain.Commands.CommandsImpl
         {
         }
 
-        protected override void Execute(Parameter[] parameters)
+        protected override void Execute(ParametersCollection parameters)
         {
             Console.WriteLine(ToString());
         }

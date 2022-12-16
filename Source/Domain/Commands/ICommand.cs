@@ -1,7 +1,9 @@
-﻿namespace RandomDomainGenerator.Domain.Commands
+﻿using RandomDataGenerator.Domain.Commands;
+
+namespace RandomDomainGenerator.Domain.Commands
 {
     public interface ICommand
     {
-        public void Do(params Parameter[] parameters);
+        public void Do(ParametersCollection parameters);
     }
 }

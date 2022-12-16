@@ -1,4 +1,5 @@
-﻿using RandomDataGenerator.Domain.Commands.Factories;
+﻿using RandomDataGenerator.Domain.Commands;
+using RandomDataGenerator.Domain.Commands.Factories;
 using RandomDomainGenerator.Domain.Commands;
 using System.CommandLine;
 using System.CommandLine.Invocation;
@@ -19,21 +20,21 @@ namespace RandomDataGenerator.ConsoleClient.Services
         {
             return new Action<InvocationContext>((context) =>
             {
-                Parameter[] parameters = GetParameters(command.Options, context.ParseResult);
+                ParametersCollection parameters = GetParameters(command.Options, context.ParseResult);
                 ICommand handler = _commandFactory.CreateCommand(command.Name);
                 handler.Do(parameters);
             });
         }
 
-        private Parameter[] GetParameters(IReadOnlyList<Option> options, ParseResult parseResult)
+        private ParametersCollection GetParameters(IReadOnlyList<Option> options, ParseResult parseResult)
         {
-            var commandParameters = new Parameter[options.Count];
+            var commandParameters = new ParametersCollection();
             for (var i = 0; i < options.Count; i++)
             {
                 string optionName = options[i].Name;
                 object? optionValue = parseResult.GetValueForOption(options[i]);
                 Type optionType = options[i].ValueType;
-                commandParameters[i] = new Parameter(optionName, optionValue, optionType);
+                commandParameters.Add(optionName, optionValue, optionType);
             }
 
             return commandParameters;

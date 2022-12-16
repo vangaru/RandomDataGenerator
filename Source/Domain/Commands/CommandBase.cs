@@ -1,4 +1,6 @@
-﻿using RandomDomainGenerator.Domain.Loggers;
+﻿using RandomDataGenerator.Domain.Commands;
+using RandomDomainGenerator.Domain.Loggers;
+using System.Diagnostics;
 
 namespace RandomDomainGenerator.Domain.Commands
 {
@@ -11,11 +13,15 @@ namespace RandomDomainGenerator.Domain.Commands
             _logger = logger;
         }
 
-        public void Do(params Parameter[] parameters)
+        public void Do(ParametersCollection parameters)
         {
             try
             {
+                var stopWatch = new Stopwatch();
+                stopWatch.Start();
                 Execute(parameters);
+                stopWatch.Stop();
+                _logger.LogInfo($"Elapsed time (ms): {stopWatch.ElapsedMilliseconds}.");
             }
             catch (Exception e)
             {
@@ -23,6 +29,6 @@ namespace RandomDomainGenerator.Domain.Commands
             }
         }
 
-        protected abstract void Execute(Parameter[] parameters);
+        protected abstract void Execute(ParametersCollection parameters);
     }
 }
