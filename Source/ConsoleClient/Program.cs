@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RandomDataGenerator.ConsoleClient.Loggers;
 using RandomDataGenerator.ConsoleClient.Services;
+using RandomDataGenerator.Data.Data;
+using RandomDataGenerator.Data.Repositories;
 using RandomDataGenerator.Domain.Commands.Factories;
+using RandomDataGenerator.Domain.Data;
 using RandomDataGenerator.Domain.DataProcessors;
 using RandomDataGenerator.Domain.DataProcessors.Generators;
 using RandomDomainGenerator.Domain.Commands.CommandsImpl;
@@ -16,6 +20,7 @@ namespace RandomDomainGenerator.ConsoleClient
     internal static class Program
     {
         private const string CommandHandlerMappingsKey = "CommandHandlerMappings";
+        private const string ConnectionString = "RandomDataGenerator";
 
         private static void Main(string[] args)
         {
@@ -51,6 +56,12 @@ namespace RandomDomainGenerator.ConsoleClient
                     services.AddScoped<IIntegerStringGenerator, IntegerStringGenerator>();
                     services.AddScoped<IDoubleStringGenerator, DoubleStringGenerator>();
                     services.AddScoped<IFilesUniter, FilesUniter>();
+                    services.AddScoped<IFileEntriesStore, FileEntriesSqlServerStore>();
+
+                    string connectionString = hostContext.Configuration.GetConnectionString(ConnectionString) 
+                        ?? throw new ApplicationException($"Connection string {ConnectionString} is not defined");
+                    services.AddDbContext<DataGeneratorContext>(options => options.UseSqlServer(connectionString, opts 
+                        => opts.MigrationsAssembly("Generator")));
                 });
         }
     }

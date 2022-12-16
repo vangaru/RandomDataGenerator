@@ -2,8 +2,15 @@
 {
     public class FileEntry
     {
+        private string? _id;
         private string? _latinString;
         private string? _russianString;
+
+        public string Id
+        {
+            get => _id ?? throw new ApplicationException("Id is not defined");
+            set => _id = value;
+        }
 
         public DateTime Date { get; set; }
         
@@ -22,7 +29,5 @@
         public int IntegerNumber { get; set; }
 
         public double FloatingNumber { get; set; }
-
-        public override string ToString() => $"{Date}||{LatinString}||{RussianString}||{IntegerNumber}||{FloatingNumber}||";
     }
 }
