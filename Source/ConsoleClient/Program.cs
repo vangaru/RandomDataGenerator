@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using RandomDataGenerator.ConsoleClient.Loggers;
 using RandomDataGenerator.ConsoleClient.Services;
 using RandomDataGenerator.Domain.Commands.Factories;
+using RandomDataGenerator.Domain.DataProcessors;
 using RandomDataGenerator.Domain.DataProcessors.Generators;
 using RandomDomainGenerator.Domain.Commands.CommandsImpl;
 using RandomDomainGenerator.Domain.Configuration;
@@ -49,6 +50,7 @@ namespace RandomDomainGenerator.ConsoleClient
                     services.AddScoped<IRussianStringGenerator, RussianStringGenerator>();
                     services.AddScoped<IIntegerStringGenerator, IntegerStringGenerator>();
                     services.AddScoped<IDoubleStringGenerator, DoubleStringGenerator>();
+                    services.AddScoped<IFilesUniter, FilesUniter>();
                 });
         }
     }

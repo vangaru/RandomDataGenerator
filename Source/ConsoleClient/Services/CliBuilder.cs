@@ -22,10 +22,7 @@ namespace RandomDataGenerator.ConsoleClient.Services
             };
 
             var generateCommand = new Command("generate", "generator generate --directory {path to the directory to save files}");
-            generateCommand.AddOption(new Option<string>("--directory", description: "path to the directory to save files")
-            {
-                IsRequired = true
-            });
+            generateCommand.AddOption(new Option<string>("--directory", description: "path to the directory to save files"));
             
             var uniteCommand = new Command("unite", "generator unite --directory {path to the generated files} --path {path to the united file}");
             uniteCommand.AddOption(new Option<string>("--directory", description: "path to the generated files")
@@ -33,6 +30,10 @@ namespace RandomDataGenerator.ConsoleClient.Services
                 IsRequired = true
             });
             uniteCommand.AddOption(new Option<string>("--path", description: "path to the united file")
+            {
+                IsRequired = true
+            });
+            uniteCommand.AddOption(new Option<string>("--escape", description: "delete lines which contain specified text")
             {
                 IsRequired = true
             });

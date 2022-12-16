@@ -6,7 +6,7 @@ namespace RandomDomainGenerator.Domain.Commands
 {
     public abstract class CommandBase : ICommand
     {
-        private readonly IClientLogger _logger;
+        protected readonly IClientLogger _logger;
 
         public CommandBase(IClientLogger logger)
         {

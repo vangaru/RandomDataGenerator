@@ -15,6 +15,21 @@
 
         public Type Type { get; }
 
-        public override string ToString() => $"{Name} - {Value}";
+        internal static T ResolveParameterValue<T>(Parameter parameter, T? defaultValue = null) where T : class
+        {
+            if (parameter.Value is not null and T result)
+            {
+                return result;
+            }
+
+            if (parameter.Value == null && defaultValue != null && typeof(T) == parameter.Type)
+            {
+                return defaultValue;
+            }
+            else
+            {
+                throw new ApplicationException($"{parameter.Name}'s is null and cannot apply default value.");
+            }
+        }
     }
 }

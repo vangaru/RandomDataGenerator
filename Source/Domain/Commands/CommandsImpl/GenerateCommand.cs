@@ -19,25 +19,11 @@ namespace RandomDomainGenerator.Domain.Commands.CommandsImpl
         protected override void Execute(ParametersCollection parameters)
         {
             Parameter parameterDirectory = parameters[ParameterDirectory];
-            string directory = GetDirectory(parameterDirectory);
+            string directory = Parameter.ResolveParameterValue(parameterDirectory, Environment.CurrentDirectory);
             Parallel.For(0, FilesCount, (i) =>
             {
                 _randomFileGenerator.Generate(directory);
             });
-        }
-
-        private string GetDirectory(Parameter parameterDirectory)
-        {
-            return parameterDirectory.Value == null
-                ? Environment.CurrentDirectory
-                : GetDirectoryFromParameter(parameterDirectory);
-        }
-
-        private string GetDirectoryFromParameter(Parameter parameterDirectory)
-        {
-            return parameterDirectory.Type == typeof(string)
-                ? (string)parameterDirectory.Value!
-                : throw new ApplicationException($"Parameter {ParameterDirectory} must be of type System.String.");
         }
     }
 }
