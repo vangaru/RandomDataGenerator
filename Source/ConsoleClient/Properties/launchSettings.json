@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RandomDataGenerator.ConsoleClient": {
+      "commandName": "Project",
+      "commandLineArgs": "import --directory Files"
+    }
+  }
+}

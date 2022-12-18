@@ -1,28 +1,38 @@
-﻿using RandomDataGenerator.Data.Data;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using RandomDataGenerator.Data.Extensions;
 using RandomDataGenerator.Domain.Data;
 using RandomDataGenerator.Domain.DataProcessors;
 
 namespace RandomDataGenerator.Data.Repositories
 {
-    public class FileEntriesSqlServerStore : IFileEntriesStore
+    public sealed class FileEntriesSqlServerStore : IFileEntriesStore
     {
-        private readonly DataGeneratorContext _dataGeneratorContext;
+        private const string FileEntriesTableName = "dbo.FileEntries";
+        private const string ConnectionString = "RandomDataGenerator";
 
-        public FileEntriesSqlServerStore(DataGeneratorContext dataGeneratorContext)
+        private readonly string _connectionString;
+
+        public FileEntriesSqlServerStore(IConfiguration configuration)
         {
-            _dataGeneratorContext = dataGeneratorContext;
+            _connectionString = configuration.GetConnectionString(ConnectionString)
+                ?? throw new ApplicationException($"Cannot find connection string {ConnectionString}");
         }
 
         public void AddEntries(IEnumerable<FileEntry> entries)
         {
-            _dataGeneratorContext.AddRange(entries);
-            _dataGeneratorContext.SaveChanges();
-        }
-
-        public void AddEntry(FileEntry entry)
-        {
-            _dataGeneratorContext.Add(entry);
-            _dataGeneratorContext.SaveChanges();
+            using (var sqlConnection = new SqlConnection(_connectionString))
+            {
+                sqlConnection.Open();
+                var sqlBulkCopy = new SqlBulkCopy(sqlConnection)
+                {
+                    BulkCopyTimeout = 0,
+                    BatchSize = entries.Count(),
+                    DestinationTableName = FileEntriesTableName
+                };
+                sqlBulkCopy.WriteToServer(entries.ToDataTable());
+                sqlConnection.Close();
+            }
         }
     }
 }

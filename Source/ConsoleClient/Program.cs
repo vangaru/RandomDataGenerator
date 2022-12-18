@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RandomDataGenerator.ConsoleClient.Loggers;
 using RandomDataGenerator.ConsoleClient.Services;
 using RandomDataGenerator.Data.Data;
@@ -10,6 +11,8 @@ using RandomDataGenerator.Domain.Commands.Factories;
 using RandomDataGenerator.Domain.Data;
 using RandomDataGenerator.Domain.DataProcessors;
 using RandomDataGenerator.Domain.DataProcessors.Generators;
+using RandomDataGenerator.Domain.DataProcessors.Parsers;
+using RandomDataGenerator.Domain.Loggers;
 using RandomDomainGenerator.Domain.Commands.CommandsImpl;
 using RandomDomainGenerator.Domain.Configuration;
 using RandomDomainGenerator.Domain.Loggers;
@@ -32,6 +35,10 @@ namespace RandomDomainGenerator.ConsoleClient
         private static IHostBuilder CreateDefaultHostBuilder()
         {
             return Host.CreateDefaultBuilder()
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                })
                 .ConfigureAppConfiguration(app =>
                 {
                     app.AddJsonFile("appsettings.json");
@@ -57,11 +64,14 @@ namespace RandomDomainGenerator.ConsoleClient
                     services.AddScoped<IDoubleStringGenerator, DoubleStringGenerator>();
                     services.AddScoped<IFilesUniter, FilesUniter>();
                     services.AddScoped<IFileEntriesStore, FileEntriesSqlServerStore>();
+                    services.AddScoped<IFilesImporter, FilesImporter>();
+                    services.AddScoped<IFileParser, FileParser>();
+                    services.AddScoped<IProgressBar, ConsoleProgressBar>();
 
                     string connectionString = hostContext.Configuration.GetConnectionString(ConnectionString) 
                         ?? throw new ApplicationException($"Connection string {ConnectionString} is not defined");
                     services.AddDbContext<DataGeneratorContext>(options => options.UseSqlServer(connectionString, opts 
-                        => opts.MigrationsAssembly("Generator")));
+                        => opts.MigrationsAssembly("Generator")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
                 });
         }
     }

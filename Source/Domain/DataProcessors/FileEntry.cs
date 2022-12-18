@@ -1,4 +1,6 @@
-﻿namespace RandomDataGenerator.Domain.DataProcessors
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RandomDataGenerator.Domain.DataProcessors
 {
     public class FileEntry
     {
@@ -8,7 +10,7 @@
 
         public string Id
         {
-            get => _id ?? throw new ApplicationException("Id is not defined");
+            get => _id ??= Guid.NewGuid().ToString();
             set => _id = value;
         }
 

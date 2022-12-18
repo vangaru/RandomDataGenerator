@@ -15,21 +15,34 @@
 
         public Type Type { get; }
 
-        internal static T ResolveParameterValue<T>(Parameter parameter, T? defaultValue = null) where T : class
+        internal static T ResolveParameterValue<T>(Parameter parameter)
         {
-            if (parameter.Value is not null and T result)
+            return TryResolveParameterValue(parameter, out T? result)
+                ? result!
+                : throw new ApplicationException($"Could not resolve {parameter.Name} parameter value");
+        }
+
+        internal static T ResolveParameterValue<T>(Parameter parameter, T defaultValue)
+        {
+            return TryResolveParameterValue(parameter, out T? result)
+                ? result!
+                : parameter.Type == typeof(T)
+                    ? defaultValue
+                    : throw new ApplicationException($"{parameter.Name}'s is null and cannot apply default value.");
+
+        }
+
+        private static bool TryResolveParameterValue<T>(Parameter parameter, out T? result)
+        {
+            if (parameter.Value is not null and T value)
             {
-                return result;
+                result = value;
+                return true;
             }
 
-            if (parameter.Value == null && defaultValue != null && typeof(T) == parameter.Type)
-            {
-                return defaultValue;
-            }
-            else
-            {
-                throw new ApplicationException($"{parameter.Name}'s is null and cannot apply default value.");
-            }
+            result = default;
+
+            return false;
         }
     }
 }
