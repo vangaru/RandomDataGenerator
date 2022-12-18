@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RandomDataGenerator.ConsoleClient.Loggers;
 using RandomDataGenerator.ConsoleClient.Services;
-using RandomDataGenerator.Data.Data;
 using RandomDataGenerator.Data.Repositories;
 using RandomDataGenerator.Domain.Commands.Factories;
 using RandomDataGenerator.Domain.Data;
@@ -23,7 +22,6 @@ namespace RandomDomainGenerator.ConsoleClient
     internal static class Program
     {
         private const string CommandHandlerMappingsKey = "CommandHandlerMappings";
-        private const string ConnectionString = "RandomDataGenerator";
 
         private static void Main(string[] args)
         {
@@ -67,11 +65,6 @@ namespace RandomDomainGenerator.ConsoleClient
                     services.AddScoped<IFilesImporter, FilesImporter>();
                     services.AddScoped<IFileParser, FileParser>();
                     services.AddScoped<IProgressBar, ConsoleProgressBar>();
-
-                    string connectionString = hostContext.Configuration.GetConnectionString(ConnectionString) 
-                        ?? throw new ApplicationException($"Connection string {ConnectionString} is not defined");
-                    services.AddDbContext<DataGeneratorContext>(options => options.UseSqlServer(connectionString, opts 
-                        => opts.MigrationsAssembly("Generator")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
                 });
         }
     }
