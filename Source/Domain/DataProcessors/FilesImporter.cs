@@ -1,7 +1,6 @@
 ﻿using RandomDataGenerator.Domain.Data;
 using RandomDataGenerator.Domain.DataProcessors.Parsers;
 using RandomDataGenerator.Domain.Loggers;
-using System.Collections.Concurrent;
 
 namespace RandomDataGenerator.Domain.DataProcessors
 {
@@ -36,20 +35,6 @@ namespace RandomDataGenerator.Domain.DataProcessors
                     progressBar.Tick();
                 });
             }, totalTicks);
-        }
-
-        public void ImportMoreEfficient(string directory)
-        {
-            var allEntries = new ConcurrentBag<FileEntry>();
-            Parallel.ForEach(Directory.EnumerateFiles(directory, "*.txt"), file =>
-            {
-                List<FileEntry> entries = _fileParser.Parse(file);
-                foreach (FileEntry entry in entries)
-                {
-                    allEntries.Add(entry);
-                }
-            });
-            _fileEntriesStore.AddEntries(allEntries);
         }
     }
 }
